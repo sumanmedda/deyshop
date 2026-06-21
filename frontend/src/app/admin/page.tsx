@@ -36,7 +36,8 @@ export default function AdminDashboard() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/api/products');
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.get(`${API_URL}/api/products`);
       setProducts(res.data);
     } catch (err: any) { 
       console.error("Error fetching products", err.message); 
@@ -45,7 +46,8 @@ export default function AdminDashboard() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:4000/api/orders', { headers: { 'Authorization': token } });
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.get(`${API_URL}/api/orders`, { headers: { 'Authorization': token } });
       setOrders(res.data);
     } catch (err: any) { console.error("Error fetching orders", err.message); }
   };
@@ -60,7 +62,8 @@ export default function AdminDashboard() {
 
   const updateOrderStatus = async (id: string, newStatus: string) => {
     try {
-      await axios.put(`http://127.0.0.1:4000/api/orders/${id}`, { status: newStatus }, { headers: { 'Authorization': token } });
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      await axios.put(`${API_URL}/api/orders/${id}`, { status: newStatus }, { headers: { 'Authorization': token } });
       fetchOrders(); // Status change hone ke baad list update karo
       setMessage('Order status updated successfully!');
       setTimeout(() => setMessage(''), 3000);
@@ -71,7 +74,8 @@ export default function AdminDashboard() {
     e.preventDefault();
     setError(''); setMessage('');
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/register', { 
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.post(`${API_URL}/api/auth/register`, { 
         name, email, password, role: 'Admin' 
       });
       setMessage('Admin Account created! Please login.'); 
@@ -85,7 +89,8 @@ export default function AdminDashboard() {
     e.preventDefault();
     setError(''); setMessage('');
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/login', { email, password });
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       
       if (res.data.user.role !== 'Admin' && res.data.user.role !== 'Shop Manager') {
         setError('Access Denied: You are not an Admin!'); return;
@@ -105,7 +110,8 @@ export default function AdminDashboard() {
     e.preventDefault();
     setError(''); setMessage('');
     try {
-      const url = editId ? `http://localhost:4000/api/products/${editId}` : 'http://localhost:4000/api/products';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const url = editId ? `${API_URL}/api/products/${editId}` : `${API_URL}/api/products`;
       const config = { headers: { 'Authorization': token } };
       const bodyData = { 
         name: prodName, price: Number(prodPrice), 
@@ -134,7 +140,8 @@ export default function AdminDashboard() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
-      await axios.delete(`http://localhost:4000/api/products/${id}`, { headers: { 'Authorization': token } });
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      await axios.delete(`${API_URL}/api/products/${id}`, { headers: { 'Authorization': token } });
       setMessage('Deleted successfully.'); fetchProducts(); 
     } catch (err: any) { setError('Error deleting product.'); }
   };
