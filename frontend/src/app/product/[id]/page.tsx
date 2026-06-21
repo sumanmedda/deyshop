@@ -13,7 +13,8 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/products`)
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    axios.get(`${API_URL}/api/products`)
       .then(res => {
         const found = res.data.find((p: any) => p._id === id);
         setProduct(found);

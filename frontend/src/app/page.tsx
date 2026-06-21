@@ -57,7 +57,8 @@ export default function HomePage() {
     window.addEventListener('storage', updateCartCount);
 
     // 🌟 LOCALHOST KO HATAA KE 127.0.0.1 KIYA AUR 10 SECONDS TIMEOUT LAGAYA 🌟
-    axios.get('http://127.0.0.1:4000/api/products', { timeout: 10000 })
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    axios.get(`${API_URL}/api/products`, { timeout: 10000 })
       .then((res) => { 
         setProducts(res.data); 
         setLoading(false); 

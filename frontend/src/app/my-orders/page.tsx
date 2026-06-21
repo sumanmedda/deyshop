@@ -12,7 +12,8 @@ export default function MyOrders() {
     const userName = localStorage.getItem('deyshop_user_name');
 
     // 🌟 SAME PORT 4000 USE KIYA HAI 🌟
-    axios.get('http://localhost:4000/api/orders')
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    axios.get(`${API_URL}/api/orders`)
       .then((res) => {
         // Sirf is logged-in user ke orders filter kar rahe hain
         const userOrders = res.data.filter((order: any) => order.customerName === userName);
