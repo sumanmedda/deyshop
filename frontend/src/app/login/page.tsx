@@ -18,7 +18,8 @@ export default function UserLogin() {
     e.preventDefault();
     setError(''); setMessage('');
     
-    const url = isLogin ? 'http://localhost:4000/api/auth/login' : 'http://localhost:4000/api/auth/register';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    const url = isLogin ? `${API_URL}/api/auth/login` : `${API_URL}/api/auth/register`;
     const bodyData = isLogin ? { email, password } : { name, email, password, role: 'Customer' };
 
     try {
