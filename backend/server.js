@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 5000 })
   .catch(err => console.log('❌ [DB ERROR] MongoDB connect nahi ho paya:', err.message));
 
 // 🌟 LEVEL 3: INLINE ROUTE FOR PRODUCTS (Taaki rasta bhatke nahi) 🌟
+// Note: Yeh route abhi tak inline hai lekin baad mein routes/products.js mein move ho jayega
 app.get('/api/products', async (req, res) => {
   console.log("🎯 [ROUTE HIT] Browser/Frontend se '/api/products' hit ho gaya!");
   try {
@@ -44,6 +45,7 @@ app.get('/api/products', async (req, res) => {
 // Baaki Routes mount karo
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/orders', require('./routes/orders'));
+app.use('/api/products', require('./routes/products'));
 
 // 🌟 LEVEL 4: GLOBAL CRASH TRACKER 🌟
 process.on('uncaughtException', (err) => {
